@@ -1,53 +1,59 @@
 package com.example.university.controller;
 
-import  com.example.university.entity.Student;
-import  com.example.university.repo.StudentRepository;
+import  com.example.university.model.Student;
+import  com.example.university.repository.StudentRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
+@RestController
 public class StudentController {
-    // CRUD
-    // POST, GET, PUT, DELETE
-    private final StudentRepository studentRepository;
 
-    public StudentController(StudentRepository studentRepository) {
-        this.studentRepository = studentRepository;
-    }
+    private final StudentRepository repo;
 
-    @PostMapping("/students")
-    Student newStudent(@RequestBody Student student) {
-        return studentRepository.save(student);
+    public StudentController(StudentRepository repo) {
+        this.repo = repo;
     }
 
     @GetMapping("/students")
-    List<Student> getAllStudents() {
-        return (List) studentRepository.findAll();
+    Iterable<Student> getAllStudents() {
+        return repo.findAll();
     }
 
     @GetMapping("/students/{id}")
-    Optional<Student> getOneStudent(@PathVariable Long id) {
-        return  studentRepository.findById(id);
+    Student getOneStudent(@PathVariable Long id) {
+        return repo.findById(id).orElseThrow();
+    }
+
+    @PostMapping("/students")
+    Student addStudent(@RequestBody Student student) {
+        repo.save(student);
+        return student;
+    }
+
+    @DeleteMapping("/students/{id}")
+    void deleteStudent(@PathVariable Long id) {
+        try {
+            repo.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            System.err.println("No such id to delete");
+        }
     }
 
     @PutMapping("/students/{id}")
     Student updateStudent(@RequestBody Student newStudent, @PathVariable Long id) {
-        return studentRepository.findById(id).map(
+        return repo.findById(id).map(
                 student -> {
-                    student.setName(newStudent.getName());
                     student.setGpa(newStudent.getGpa());
+                    student.setName(newStudent.getName());
                     student.setGroup_name(newStudent.getGroup_name());
-                    return studentRepository.save(student);
-                }).orElseGet(() -> {
-                    newStudent.setId(id);
-                    return studentRepository.save(newStudent);
+                    return repo.save(student);
                 }
-        );
-    }
-
-    @DeleteMapping("/student/{id}")
-    void deleteStudent(@PathVariable Long id) {
-        studentRepository.deleteById(id);
+        ).orElseGet(() -> {
+            newStudent.setId(id);
+            return repo.save(newStudent);
+        });
     }
 }

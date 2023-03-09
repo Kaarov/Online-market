@@ -1,6 +1,6 @@
 package com.example.university.controller;
 
-import com.example.university.repo.StudentRepository;
+import com.example.university.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,4 +17,15 @@ public class MainController {
         model.addAttribute("students", studentRepository.findAll());
         return "index";
     }
+
+    @GetMapping("/hello")
+    public String hello() {
+        return "hello";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
 }

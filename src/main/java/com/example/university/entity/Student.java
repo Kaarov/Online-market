@@ -13,6 +13,9 @@ public class Student {
     private String name;
 
     @Column
+    private String group_name;
+
+    @Column
     private double gpa;
 
     public Long getId() {
@@ -29,6 +32,14 @@ public class Student {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getGroup_name() {
+        return group_name;
+    }
+
+    public void setGroup_name(String group_name) {
+        this.group_name = group_name;
     }
 
     public double getGpa() {

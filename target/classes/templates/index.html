@@ -12,6 +12,7 @@
     <tr>
         <th scope="col">#</th>
         <th scope="col">Name</th>
+        <th scope="col">Group</th>
         <th scope="col">GPA</th>
     </tr>
     </thead>
@@ -19,6 +20,7 @@
     <tr th:each="student : ${students}">
         <th scope="row" th:text="${student.id}"></th>
         <td th:text="${student.name}"></td>
+        <td th:text="${student.group_name}"></td>
         <td th:text="${student.gpa}"></td>
     </tr>
     </tbody>

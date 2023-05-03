@@ -1,0 +1,341 @@
+{% extends 'shopping/base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <section id="slider"><!--slider-->
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<div id="slider-carousel" class="carousel slide" data-ride="carousel">
+						<ol class="carousel-indicators">
+							<li data-target="#slider-carousel" data-slide-to="0" class="active"></li>
+							<li data-target="#slider-carousel" data-slide-to="1"></li>
+							<li data-target="#slider-carousel" data-slide-to="2"></li>
+						</ol>
+
+						<div class="carousel-inner">
+							<div class="item active">
+								<div class="col-sm-6">
+									<h1><span>Milky</span>-Way</h1>
+									<h2>Orange</h2>
+									<p>The orange is a usually round or oval citrus!</p>
+                                    <a href="{% url 'product_details' 1 %}"><button type="button" class="btn btn-default get">Get it now</button></a>
+								</div>
+								<div class="col-sm-6">
+									<img src="/media/product_image/apelsiny.png" class="girl img-responsive" alt="" style="width: 400px; height: 400px"/>
+								</div>
+							</div>
+							<div class="item">
+								<div class="col-sm-6">
+									<h1><span>Milky</span>-Way</h1>
+									<h2>Maksym Shoro</h2>
+									<p>Summer I will drink Maksym Shoro</p>
+									<a href="{% url 'product_details' 50 %}"><button type="button" class="btn btn-default get">Get it now</button></a>
+								</div>
+								<div class="col-sm-6">
+									<img src="/media/subcategory_image/ШороМаксым.webp" class="girl img-responsive" alt="" style="width: 400px; height: 400px"/>
+								</div>
+							</div>
+
+							<div class="item">
+								<div class="col-sm-6">
+									<h1><span>Milky</span>-Way</h1>
+									<h2>Nitro</h2>
+									<p>Party like a rockstar!</p>
+									<a href="{% url 'product_details' 39 %}"><button type="button" class="btn btn-default get">Get it now</button></a>
+								</div>
+								<div class="col-sm-6">
+									<img src="/media/subcategory_image/НитроФиол.webp" class="girl img-responsive" alt="" style="width: 400px; height: 400px"/>
+								</div>
+							</div>
+
+						</div>
+
+						<a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
+							<i class="fa fa-angle-left"></i>
+						</a>
+						<a href="#slider-carousel" class="right control-carousel hidden-xs" data-slide="next">
+							<i class="fa fa-angle-right"></i>
+						</a>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section><!--/slider-->
+
+	<section>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="left-sidebar">
+						<h2>Category</h2>
+						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+
+                            {% for i in category %}
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a data-toggle="collapse" data-parent="#accordian" href="#{{ i.id }}">
+											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
+											{{ i.name }}
+										</a>
+									</h4>
+								</div>
+								<div id="{{ i.id }}" class="panel-collapse collapse">
+									<div class="panel-body">
+										<ul>
+                                            {% for x in subcategory %}
+                                                {% if i.id == x.category.id %}
+                                                    <li><a href="{% url 'subcategory_product' x.id %}">{{ x.name }}</a></li>
+                                                {% endif %}
+                                            {% endfor %}
+										</ul>
+									</div>
+								</div>
+							</div>
+                            {% endfor %}
+
+
+{#							<div class="panel panel-default">#}
+{#								<div class="panel-heading">#}
+{#									<h4 class="panel-title">#}
+{#										<a data-toggle="collapse" data-parent="#accordian" href="#sportswear">#}
+{#											<span class="badge pull-right"><i class="fa fa-plus"></i></span>#}
+{#											Sportswear#}
+{#										</a>#}
+{#									</h4>#}
+{#								</div>#}
+{#								<div id="sportswear" class="panel-collapse collapse">#}
+{#									<div class="panel-body">#}
+{#										<ul>#}
+{#											<li><a href="#">Nike </a></li>#}
+{#											<li><a href="#">Under Armour </a></li>#}
+{#											<li><a href="#">Adidas </a></li>#}
+{#											<li><a href="#">Puma</a></li>#}
+{#											<li><a href="#">ASICS </a></li>#}
+{#										</ul>#}
+{#									</div>#}
+{#								</div>#}
+{#							</div>#}
+
+						</div><!--/category-products-->
+
+						<div class="brands_products"><!--brands_products-->
+							<h2>SubCategories</h2>
+							<div class="brands-name">
+								<ul class="nav nav-pills nav-stacked">
+                                    {% for x in subcategory %}
+                                        <li><a href="{% url 'subcategory_product' x.id %}"> <span class="pull-right">
+{#                                            {% for x in subsubcategory_count  %}#}
+                                                    ({{ x.product_set.all.count }})
+{#                                            {% endfor %}#}
+                                        </span>{{ x.name }}</a></li>
+                                    {% endfor %}
+								</ul>
+							</div>
+						</div><!--/brands_products-->
+
+
+                        <div class="brands_products"><!--brands_products-->
+                            <h2>Brands</h2>
+                            <div class="brands-name">
+                                <ul class="nav nav-pills nav-stacked">
+                                    {% for x in brand %}
+                                        <li><a href="{% url 'brand_home' x.id %}"> <span class="pull-right">({{ x.product_set.all.count }})</span>{{ x.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div><!--/brands_products-->
+
+{#						<div class="price-range"><!--price-range-->#}
+{#							<h2>Price Range</h2>#}
+{#							<div class="well text-center">#}
+{#								 <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />#}
+{#								 <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>#}
+{#							</div>#}
+{#						</div><!--/price-range-->#}
+
+{#						<div class="shipping text-center"><!--shipping-->#}
+{#							<img src="images/home/shipping.jpg" alt="" />#}
+{#						</div><!--/shipping-->#}
+
+					</div>
+				</div>
+
+				<div class="col-sm-9 padding-right">
+					<div class="features_items"><!--product_items-->
+						<h2 class="title text-center">Products</h2>
+                        {% for i in product_4 %}
+                            <div class="col-sm-4">
+                                <div class="product-image-wrapper">
+                                    <div class="single-products">
+                                            <div class="productinfo text-center">
+
+                                                {% if i.image %}
+                                                    <img src="{{ i.image.url }}" alt="" style="width: 200px; height: 200px"/>
+                                                {% endif %}
+                                                <h2>${{ i.price }}</h2>
+                                                <p>{{ i.name }}</p>
+                                                <a href="{% url 'add_cart' i.id %}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                            </div>
+                                            <div class="product-overlay">
+                                                <div class="overlay-content">
+                                                    <h2>${{ i.price }}</h2>
+                                                    <p>{{ i.name }}</p>
+                                                    <a href="{% url 'add_cart' i.id %}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="choose">
+                                        <ul class="nav nav-pills nav-justified">
+                                            <li><a href="{% url 'add_wishlist' i.id %}"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+                                            <li><a href="{% url 'product_details' i.pk %}"><i class="fa fa-plus-square"></i>More Info</a></li>
+{#                                            <li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>#}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+						{% endfor %}
+
+					</div><!--features_items-->
+
+{#					<div class="category-tab"><!--category-tab-->#}
+{##}
+{#                            <div class="col-sm-12">#}
+{#                                <ul class="nav nav-tabs">#}
+{#                                    {% for i in subcategory %}#}
+{#                                        <li><a href="#{{ i.name }}" data-toggle="tab">{{ i.name }}</a></li>#}
+{#                                    {% endfor %}#}
+{#                                </ul>#}
+{#                            </div>#}
+{#                            <div class="tab-content">#}
+{#                                {% for i in subcategory %}#}
+{#                                    <div class="tab-pane fade active in" id="{{ i.name }}" >#}
+{#                                        {% for x in product_last_3 %}#}
+{#                                            {% if i.id == x.subcategory.id %}#}
+{#                                                <div class="col-sm-3">#}
+{#                                                    <div class="product-image-wrapper">#}
+{#                                                        <div class="single-products">#}
+{#                                                            <div class="productinfo text-center">#}
+{#                                                                {% if i.image %}#}
+{#                                                                    <img src="{{ x.image.url }}" alt="" style="width: 170px; height: 170px"/>#}
+{#                                                                {% endif %}#}
+{#                                                                <h2>${{ x.price }}</h2>#}
+{#                                                                <p>{{ x.name }}</p>#}
+{#                                                                <a href="{% url 'add_cart' x.id %}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>#}
+{#                                                            </div>#}
+{##}
+{#                                                        </div>#}
+{#                                                    </div>#}
+{#                                                </div>#}
+{#                                            {% endif %}#}
+{#                                        {% endfor %}#}
+{#                                    </div>#}
+{#                                {% endfor %}#}
+{#                            </div>#}
+{#					</div><!--/category-tab-->#}
+
+{#					<div class="recommended_items"><!--recommended_items-->#}
+{#						<h2 class="title text-center">recommended items</h2>#}
+{##}
+{#						<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">#}
+{#							<div class="carousel-inner">#}
+{#								<div class="item active">#}
+{#									<div class="col-sm-4">#}
+{#										<div class="product-image-wrapper">#}
+{#											<div class="single-products">#}
+{#												<div class="productinfo text-center">#}
+{#													<img src="images/home/recommend1.jpg" alt="" />#}
+{#													<h2>$56</h2>#}
+{#													<p>Easy Polo Black Edition</p>#}
+{#													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>#}
+{#												</div>#}
+{##}
+{#											</div>#}
+{#										</div>#}
+{#									</div>#}
+{#									<div class="col-sm-4">#}
+{#										<div class="product-image-wrapper">#}
+{#											<div class="single-products">#}
+{#												<div class="productinfo text-center">#}
+{#													<img src="images/home/recommend2.jpg" alt="" />#}
+{#													<h2>$56</h2>#}
+{#													<p>Easy Polo Black Edition</p>#}
+{#													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>#}
+{#												</div>#}
+{##}
+{#											</div>#}
+{#										</div>#}
+{#									</div>#}
+{#									<div class="col-sm-4">#}
+{#										<div class="product-image-wrapper">#}
+{#											<div class="single-products">#}
+{#												<div class="productinfo text-center">#}
+{#													<img src="images/home/recommend3.jpg" alt="" />#}
+{#													<h2>$56</h2>#}
+{#													<p>Easy Polo Black Edition</p>#}
+{#													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>#}
+{#												</div>#}
+{##}
+{#											</div>#}
+{#										</div>#}
+{#									</div>#}
+{#								</div>#}
+{#								<div class="item">#}
+{#									<div class="col-sm-4">#}
+{#										<div class="product-image-wrapper">#}
+{#											<div class="single-products">#}
+{#												<div class="productinfo text-center">#}
+{#													<img src="images/home/recommend1.jpg" alt="" />#}
+{#													<h2>$56</h2>#}
+{#													<p>Easy Polo Black Edition</p>#}
+{#													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>#}
+{#												</div>#}
+{##}
+{#											</div>#}
+{#										</div>#}
+{#									</div>#}
+{#									<div class="col-sm-4">#}
+{#										<div class="product-image-wrapper">#}
+{#											<div class="single-products">#}
+{#												<div class="productinfo text-center">#}
+{#													<img src="images/home/recommend2.jpg" alt="" />#}
+{#													<h2>$56</h2>#}
+{#													<p>Easy Polo Black Edition</p>#}
+{#													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>#}
+{#												</div>#}
+{##}
+{#											</div>#}
+{#										</div>#}
+{#									</div>#}
+{#									<div class="col-sm-4">#}
+{#										<div class="product-image-wrapper">#}
+{#											<div class="single-products">#}
+{#												<div class="productinfo text-center">#}
+{#													<img src="images/home/recommend3.jpg" alt="" />#}
+{#													<h2>$56</h2>#}
+{#													<p>Easy Polo Black Edition</p>#}
+{#													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>#}
+{#												</div>#}
+{##}
+{#											</div>#}
+{#										</div>#}
+{#									</div>#}
+{#								</div>#}
+{#							</div>#}
+{#							 <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">#}
+{#								<i class="fa fa-angle-left"></i>#}
+{#							  </a>#}
+{#							  <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">#}
+{#								<i class="fa fa-angle-right"></i>#}
+{#							  </a>#}
+{#						</div>#}
+{#					</div><!--/recommended_items-->#}
+
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

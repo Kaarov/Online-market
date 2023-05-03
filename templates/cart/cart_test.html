@@ -1,0 +1,160 @@
+{% extends 'shopping/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+	<section id="cart_items">
+		<div class="container">
+			<div class="breadcrumbs">
+				<ol class="breadcrumb">
+				  <li><a href="#">Home</a></li>
+				  <li class="active">Shopping Cart</li>
+				</ol>
+			</div>
+			<div class="table-responsive cart_info">
+				<table class="table table-condensed">
+					<thead>
+						<tr class="cart_menu">
+							<td class="image">Item</td>
+							<td class="description"></td>
+							<td class="price">Price</td>
+							<td class="quantity">Quantity</td>
+							<td class="total">Total</td>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody>
+{#                        {% for x in order.items.all %}#}
+                        {% for x in order_item %}
+                            <tr>
+                                <td class="cart_product">
+                                    {% if x.product.image %}
+                                        <a href=""><img src="{{ x.product.image.url }}" alt="" style="width: 100px; height: 100px"></a>
+                                        {% endif %}
+                                    </td>
+                                    <td class="cart_description">
+                                        <h4><a href="">{{ x.product.name }}</a></h4>
+                                        <p>{{ x.product.article }}</p>
+                                    </td>
+                                    <td class="cart_price">
+                                        <p id="price{{ x.product.price }}">${{ x.product.price }}</p>
+                                    </td>
+                                    <td class="cart_quantity">
+                                        <div class="cart_quantity_button">
+                                            <a class="cart_quantity_up" href="{% url 'plus_cart' x.product.id %}"> + </a>
+                                            <input class="cart_quantity_input" name="quantity" readonly id="amount{{ x.amount }}" value="{{ x.amount }}" autocomplete="off" size="3">
+                                            <a class="cart_quantity_down" href="{% url 'minus_cart' x.product.id %}"> - </a>
+                                        </div>
+                                    </td>
+                                    <td class="cart_total">
+                                        <p class="cart_total_price" id="total{{ x.product.id }}">${{ x.total_item_price }}</p>
+                                    </td>
+                                    <td class="cart_delete">
+                                        <a class="cart_quantity_delete" href="{% url 'delete_cart' x.product.id %}"><i class="fa fa-times"></i></a>
+                                    </td>
+                                </tr>
+                        {% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section> <!--/#cart_items-->
+
+
+
+	<section id="do_action">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="total_area">
+						<ul>
+							<li>Cart Sub Total <span>${{ order.total_price }}</span></li>
+							<li>Eco Tax <span>$5</span></li>
+							<li>Shipping Cost <span>Free</span></li>
+							<li>Total <span  style="color: #FE980F; font-size: 16px">${{ order.total }}</span></li>
+						</ul>
+							<a class="btn btn-default update" href="">Update</a>
+							<a class="btn btn-default check_out" href="">Check Out</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section><!--/#do_action-->
+
+
+<script>
+
+    function multi(){
+        let price = document.getElementById('price{{ x.product.price }}').value;
+        let amount = document.getElementById('amount{{ x.amount }}').value;
+        document.getElementById('total{{ x.product.id }}').value = price * amount;
+    }
+
+</script>
+
+{% endblock %}
+
+
+{#<input type="number" value="185" readonly id="value1">#}
+{#<input type="number"  id="test">#}
+{#<button onclick="koboituu()">OK</button>#}
+{#<input type="number" id="test2">#}
+
+
+{#function koboituu(){#}
+{#    let price = document.getElementById('value1').value;#}
+{#    let amount = document.getElementById('test').value;#}
+{#    document.getElementById('test2').value = price * amount;#}
+
+
+{#{% for product in products %}#}
+{#    {{ product.title }}<br>#}
+{#    {{ product.price }}#}
+{#    <hr>#}
+{#    {% for foo in product.productphotos_set.all %}#}
+{#        <img src="{{ foo.image.url }}" alt="" height="200px">#}
+{#        <hr>#}
+{#    {% endfor %}#}
+{#    <input type="number" onchange="calc(this.value, {{ product.id }}, {{ product.price }})" id="count{{ product.id }}">#}
+{#    <p id="total{{ product.id }}">0</p>#}
+{#{% endfor %}#}
+{#<h1 id="all_total"></h1>#}
+{#<script>#}
+{#    function calc(counter, id, price){#}
+{#        let c = document.getElementById('count'+id).value;#}
+{#        document.getElementById('total'+id).innerHTML = parseInt(c) * price;#}
+{#        let all_total = 0#}
+{#        {% for i in products %}#}
+{#            all_total += parseInt(document.getElementById('total'+ {{i.id}}).innerHTML)#}
+{#        {% endfor %}#}
+{#        document.getElementById('all_total').innerHTML = all_total;#}
+{#    };#}
+{#</script>#}
+
+
+
+{#<body>#}
+{#{% for product in products %}#}
+{#    {{ product.title }}<br>#}
+{#    {{ product.price }}#}
+{#    <hr>#}
+{#    {% for foo in product.productphotos_set.all %}#}
+{#        <img src="{{ foo.image.url }}" alt="" height="200px">#}
+{#        <hr>#}
+{#    {% endfor %}#}
+{#    <input type="number" onchange="calc(this.value, {{ product.id }}, {{ product.price }})" id="count{{ product.id }}">#}
+{#    <p id="total{{ product.id }}">0</p>#}
+{#{% endfor %}#}
+{#<h1 id="all_total"></h1>#}
+{#<script>#}
+{#    function calc(counter, id, price){#}
+{#        let c = document.getElementById('count'+id).value;#}
+{#        document.getElementById('total'+id).innerHTML = parseInt(c) * price;#}
+{#        let all_total = 0#}
+{#        {% for i in products %}#}
+{#            all_total += parseInt(document.getElementById('total'+ {{i.id}}).innerHTML)#}
+{#        {% endfor %}#}
+{#        document.getElementById('all_total').innerHTML = all_total;#}
+{#    };#}
+{#</script>#}

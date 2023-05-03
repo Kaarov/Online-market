@@ -1,0 +1,202 @@
+{% extends 'shopping/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <section>
+        <div class="container">
+            <div class="breadcrumbs">
+				<ol class="breadcrumb">
+				  <li><a href="{% url 'home' %}">Home</a></li>
+				  <li class="active">Account</li>
+				</ol>
+			</div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="left-sidebar">
+                        <h2>Photo</h2>
+                        <div class="panel-group category-products" id="accordian"><!--Photo-->
+
+                            <img src="/media/blog/AccountIcon2.png" class="Account" alt=" " style="width: 250px; height: 250px"/>
+
+                        </div><!--/Photo-->
+
+                        <div class="brands_products"><!--Info About User-->
+                            <h2>About</h2>
+                            <div class="brands-name">
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li style="color: #696763; font-family: 'Roboto', sans-serif; font-size: 20px;
+                                            text-decoration: none; text-transform: uppercase;" >
+                                        <h5 style=" text-align: center;">
+                                            Name&nbsp;:&nbsp;{{ user.username }}
+                                        </h5>
+                                        <hr>
+                                        <h5 style=" text-align: center;">
+                                            {% if user.email %}
+                                                Email&nbsp;:&nbsp;{{ user.email }}
+                                            {% else %}
+                                                Email&nbsp;:&nbsp;None
+                                            {% endif %}
+                                        </h5>
+                                        <hr>
+                                        <h5 style=" text-align: center;">
+                                            Date&nbsp;:&nbsp;{{ user.date_joined.time }}&nbsp;{{ user.date_joined.day }}/{{ user.date_joined.month }}/{{ user.date_joined.year }}
+                                        </h5>
+                                        <hr>
+                                        <h5 style=" text-align: center;">
+                                            {% if user.role %}
+                                                Role&nbsp;:&nbsp;{{ user.role }}
+                                            {% else %}
+                                                Role&nbsp;:&nbsp;None
+                                            {% endif %}
+                                        </h5>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div><!--/Info About User-->
+
+                        <div class="price-range"><!--price-range-->
+{#                            <h2>Price Range</h2>#}
+                        </div><!--/price-range-->
+
+                    </div>
+                </div>
+
+                <div class="col-sm-9 padding-right">
+                    <div class="features_items"><!--Wishlist / Done Card-->
+
+                        <h2 class="title text-center">Wishlist</h2>
+                            <div class="table-responsive cart_info">
+                                <table class="table table-condensed">
+                                    {% if wishlist_item %}
+                                        <thead>
+                                            <tr class="cart_menu">
+                                                <td class="image" style="width: 15%; text-align: center">Item</td>
+                                                <td class="price" style="width: 10%; text-align: center">Price</td>
+                                                <td class="description" style="width: 40%; text-align: center">Description</td>
+                                                <td class="date" style="width: 25%; text-align: center">Date</td>
+                                                <td class="cart_delete" style="width: 10%; text-align: center"></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                {#                        {% for x in order.items.all %}#}
+                                        {% for x in wishlist_item %}
+                                            <tr>
+                                                <td class="image" style="width: 15%; text-align: center">
+                                                {% if x.product.image %}
+                                                    <a href=""><img src="{{ x.product.image.url }}" alt="" style="width: 100px; height: 100px; text-align: center"></a>
+                                                    {% endif %}
+                                                </td>
+                                                <td class="price" style="width: 10%; text-align: center">
+                                                    <p>${{ x.product.price }}</p>
+                                                </td>
+                                                <td class="description" style="width: 45%; text-align: center">
+                                                        <p>{{ x.product.description }}</p>
+                                                </td>
+                                                <td class="date" style="width: 25%; text-align: center">
+                                                    <p class="cart_total_price">{{ x.created_at.time }}   {{ x.created_at.day }}/{{ x.created_at.month }}/{{ x.created_at.year }}</p>
+                                                </td>
+                                                <td class="cart_delete" style="padding-top: 30px">
+                                                    <a class="cart_delete" href="{% url 'delete_wishlist_account' x.product.id %}"><i class="fa fa-times"></i></a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <h2 class="title text-center">None Yet</h2>
+                                    {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        <hr style="padding-top: 150px; ">
+
+                        <h2 class="title text-center">Done Cart</h2>
+                            {% if order %}
+                                {% for x in order %}
+                                    <div class="table-responsive cart_info">
+                                        <table class="table table-condensed">
+                                            <thead>
+                                                <tr class="cart_menu">
+                                                    <td class="order" style="width: 10%; text-align: center">Order</td>
+                                                    <td class="name" style="width: 30%; text-align: center">Name</td>
+                                                    <td class="amount" style="width: 10%; text-align: center">Amount</td>
+                                                    <td class="total" style="width: 20%; text-align: center">Total</td>
+                                                    <td class="date" style="width: 30%; text-align: center">Date</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                        {#                        {% for x in order.items.all %}#}
+                                                    <tr>
+                                                        <td class="order" style="width: 10%; text-align: center">
+                                                            <p>{{ x.id }}</p>
+                                                        </td>
+                                                        <td class="name" style="width: 30%; text-align: center">
+                                                            <p>{{ x.name }}</p>
+                                                        </td>
+                                                        <td class="amount" style="width: 10%; text-align: center">
+                                                            <p>{{ x.amount }}</p>
+                                                        </td>
+                                                        <td class="amount" style="width: 20%; text-align: center">
+                                                            <p>{{ x.total }}</p>
+                                                        </td>
+                                                        <td class="date" style="width: 30%; text-align: center">
+                                                            <p>{{ x.created_at }}</p>
+                                                        </td>
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <hr style="width: 85%; margin-right: 10px">
+                                    {% for y in x.items.all %}
+                                        <div class="table-responsive cart_info">
+                                            <table class="table table-condensed">
+                                                <thead>
+                                                    <tr class="cart_menu">
+                                                        <td class="order" style="width: 10%;"></td>
+                                                        <td class="name" style="width: 20%; text-align: center">Name</td>
+                                                        <td class="name" style="width: 10%; text-align: center">Price</td>
+                                                        <td class="amount" style="width: 15%; text-align: center">Amount</td>
+                                                        <td class="total" style="width: 15%; text-align: center">Total</td>
+                                                        <td class="date" style="width: 20%; text-align: center">Date</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                            {#                        {% for x in order.items.all %}#}
+                                                        <tr>
+                                                            <td class="order" style="width: 10%">
+                                                                <p></p>
+                                                            </td>
+                                                            <td class="name" style="width: 20%; text-align: center">
+                                                                <p>{{ y.product.name }}</p>
+                                                            </td>
+                                                            <td class="name" style="width: 10%; text-align: center">
+                                                                <p>{{ y.product.price }}</p>
+                                                            </td>
+                                                            <td class="amount" style="width: 15%; text-align: center">
+                                                                <p>{{ y.amount }}</p>
+                                                            </td>
+                                                            <td class="amount" style="width: 15%; text-align: center">
+                                                                <p>{{ y.total_item_price }}</p>
+                                                            </td>
+                                                            <td class="date" style="width: 20%; text-align: center">
+                                                                <p>{{ y.created_at }}</p>
+                                                            </td>
+                                                        </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    {% endfor %}
+                                    <hr>
+                                    <hr>
+                                {% endfor %}
+                            {% else %}
+                                <h2 class="title text-center">None Yet</h2>
+                            {% endif %}
+                    </div><!--Wishlist / Done Card-->
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

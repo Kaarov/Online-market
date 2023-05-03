@@ -1,0 +1,92 @@
+{% extends 'shopping/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+	<section id="cart_items">
+		<div class="container">
+			<div class="breadcrumbs">
+				<ol class="breadcrumb">
+				  <li><a href="{% url 'home' %}">Home</a></li>
+				  <li class="active">Shopping Cart</li>
+				</ol>
+			</div>
+			<div class="table-responsive cart_info">
+				<table class="table table-condensed">
+					<thead>
+						<tr class="cart_menu">
+							<td class="image">Item</td>
+							<td class="description"></td>
+							<td class="price">Price</td>
+							<td class="quantity">Quantity</td>
+							<td class="total">Total</td>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody>
+{#                        {% for x in order.items.all %}#}
+                        {% for x in order_item %}
+                            <tr>
+                                <td class="cart_product">
+                                    {% if x.product.image %}
+                                        <a href=""><img src="{{ x.product.image.url }}" alt="" style="width: 100px; height: 100px"></a>
+                                        {% endif %}
+                                    </td>
+                                    <td class="cart_description">
+                                        <h4><a href="">{{ x.product.name }}</a></h4>
+                                        <p>{{ x.product.article }}</p>
+                                    </td>
+                                    <td class="cart_price">
+                                        <p>${{ x.product.price }}</p>
+                                    </td>
+                                    <td class="cart_quantity">
+                                        <div class="cart_quantity_button">
+                                            <a class="cart_quantity_up" href="{% url 'plus_cart' x.product.id %}"> + </a>
+                                            <input class="cart_quantity_input" name="quantity" readonly value="{{ x.amount }}" autocomplete="off" size="3">
+                                            <a class="cart_quantity_down" href="{% url 'minus_cart' x.product.id %}"> - </a>
+                                        </div>
+                                    </td>
+                                    <td class="cart_total">
+                                        <p class="cart_total_price">${{ x.total_item_price }}</p>
+                                    </td>
+                                    <td class="cart_delete">
+                                        <a class="cart_quantity_delete" href="{% url 'delete_cart' x.product.id %}"><i class="fa fa-times"></i></a>
+                                    </td>
+                                </tr>
+                        {% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section> <!--/#cart_items-->
+
+
+
+	<section id="do_action">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="total_area">
+						<ul>
+                            {% if order_item %}
+                                <li>Cart Sub Total <span>${{ order.total_price }}</span></li>
+                                <li>Eco Tax <span>$5</span></li>
+                                <li>Shipping Cost <span>Free</span></li>
+                                <li style="color: #FE980F; font-size: 16px">Total <span  style="color: #FE980F; font-size: 16px">${{ order.total }}</span></li>
+                            {% else %}
+                                <li>Cart Sub Total <span>$0</span></li>
+                                <li>Eco Tax <span>$5</span></li>
+                                <li>Shipping Cost <span>Free</span></li>
+                                <li style="color: #FE980F; font-size: 16px">Total <span  style="color: #FE980F; font-size: 16px">$0</span></li>
+                            {% endif %}
+						</ul>
+							<a class="btn btn-default update" href="{% url 'delete_all' %}">Clear</a>
+							<a class="btn btn-default check_out" href="{% url 'savecartview' %}">Buy</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section><!--/#do_action-->
+
+{% endblock %}

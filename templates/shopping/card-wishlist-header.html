@@ -1,0 +1,15 @@
+{#{% if user.is_authenticated %}#}
+{#    <li><a href="{% url 'my_wishlist' %}">{{ wishlist_items.all.count }}&nbsp<i class="fa fa-star"></i> Wishlist</a></li>#}
+{#{% else %}#}
+{#    <li><a href="{% url 'my_wishlist' %}"><i class="fa fa-star"></i> Wishlist</a></li>#}
+{#{% endif %}#}
+
+
+{#                            <li><a href="../checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>#}
+
+
+{#{% if user.is_authenticated %}#}
+{#    <li><a href="{% url 'my_cart' %}">{{ order_items.all.count }}&nbsp<i class="fa fa-shopping-cart"></i> Cart</a></li>#}
+{#{% else %}#}
+{#    <li><a href="{% url 'my_cart' %}">&nbsp<i class="fa fa-shopping-cart"></i> Cart</a></li>#}
+{#{% endif %}#}
